@@ -11,8 +11,9 @@ export const Container = styled.TouchableOpacity`
   border-radius: 16px;
 `;
 
-export const Title = styled.Text`
-  color: ${({ theme }) => theme.colors.feedbackSuccessDark};
+export const Title = styled.Text<{ colors: string }>`
+  color: ${({ theme, colors }) =>
+    colors ?? theme.colors.brandCategoryBlackMedium};
   font-weight: 400;
   font-size: 15px;
 `;

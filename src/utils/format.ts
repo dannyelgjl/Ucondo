@@ -1,4 +1,5 @@
 import { ExpenseItem } from '../services/data';
+import { TTheme } from '../styles/theme/theme';
 
 export const normalizeCode = (code: string) => {
   return code.trim().replace(',', '.');
@@ -41,6 +42,21 @@ export const compareExpenseByCodeThenDate = (
   const byCode = compareCode(x.code, y.code);
   if (byCode !== 0) return byCode;
   return x.createdAt < y.createdAt ? 1 : x.createdAt > y.createdAt ? -1 : 0;
+};
+
+export const getTitleColor = (code: string, theme: TTheme) => {
+  const firstSeg = Number(String(code).split('.')[0]);
+
+  if (firstSeg === 1) {
+    return theme?.colors?.feedbackSuccessDark ?? '#16a34a';
+  }
+  if (firstSeg === 2) {
+    return theme?.colors?.brandPrimaryMedium ?? '#f59e0b';
+  }
+
+  const level = Math.max(0, firstSeg - 3);
+  const lightness = Math.max(28, 62 - level * 8);
+  return `hsl(0, 80%, ${lightness}%)`;
 };
 
 export const normalizeStr = (s: string) =>
