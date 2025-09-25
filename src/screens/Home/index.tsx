@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 
 import { ExpenseList, Header, Modal } from '../../components';
 import * as S from './styles';
