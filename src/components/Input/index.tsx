@@ -2,7 +2,6 @@ import React from 'react';
 import * as S from './styles';
 import { IInputProfileProps } from './types';
 import { Icon } from '../Icon';
-// import { theme } from '../../styles/theme';
 
 const InputProfile = ({
   label,
@@ -34,13 +33,7 @@ const InputProfile = ({
           editable={editable}
         />
 
-        {icon && (
-          <Icon
-            icon={icon}
-            size={24}
-            // color={theme.colors.supportSecondaryLightest}
-          />
-        )}
+        {icon && <Icon icon={icon} size={24} />}
       </S.ContainerTextInput>
 
       {!!error && !!errorMessage && <S.ErrorText>{errorMessage}</S.ErrorText>}
