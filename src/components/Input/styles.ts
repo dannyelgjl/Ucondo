@@ -44,6 +44,8 @@ export const StyledTextInput = styled(TextInput)<TInputProfile>`
   font-size: 14px;
   height: ${({ multi }) => (multi ? '100px' : 'none')};
   color: ${({ theme }) => theme.colors.brandCategoryBlackMedium};
+
+  width: 80%;
 `;
 
 export const ErrorText = styled(Text)`
