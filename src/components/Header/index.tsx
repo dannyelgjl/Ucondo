@@ -25,7 +25,7 @@ const Header = ({
       <S.Content>
         <S.ContainerTitle>
           {onPress && (
-            <S.ButtonGoBack onPress={onPress}>
+            <S.ButtonGoBack onPress={onPress} testID="header-back-button">
               <Icon
                 icon={ETypeIcon.ICON_ARROW_LEFT}
                 size={20}
@@ -34,10 +34,10 @@ const Header = ({
             </S.ButtonGoBack>
           )}
 
-          <S.Title>{title}</S.Title>
+          <S.Title testID="header-title">{title}</S.Title>
         </S.ContainerTitle>
 
-        <S.ButtonAdd onPress={onRegister}>
+        <S.ButtonAdd onPress={onRegister} testID="header-add-button">
           <Icon
             icon={iconType}
             size={20}
@@ -47,13 +47,14 @@ const Header = ({
       </S.Content>
 
       {showInput && (
-        <S.InputContainer>
+        <S.InputContainer testID="header-search-container">
           <Icon icon={ETypeIcon.ICON_SEARCH} size={15} />
 
           <S.Input
             placeholder="Pesquisar conta"
             onChangeText={onChangeText}
             value={value}
+            testID="header-search-input"
           />
         </S.InputContainer>
       )}

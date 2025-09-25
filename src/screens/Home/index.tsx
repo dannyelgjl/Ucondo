@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Text, View, RefreshControl } from 'react-native';
 
-import { ExpenseList, Header } from '../../components';
+import { ExpenseList, Header, Modal } from '../../components';
 import * as S from './styles';
 import { ETypeIcon } from '../../components/Icon/types';
 import { useContainer } from './useContainer';
@@ -17,6 +17,11 @@ const Home = (props: IHomeProps) => {
     data,
     loading,
     load,
+    onCancel,
+    openConfirm,
+    confirmVisible,
+    onConfirm,
+    pendingLabel,
   } = useContainer(props);
   return (
     <S.Container>
@@ -37,7 +42,7 @@ const Home = (props: IHomeProps) => {
           renderItem={({ item }) => (
             <ExpenseList
               item={item}
-              onDelete={() => handleDelete(item.id)}
+              onDelete={() => openConfirm(item.id)}
               onPress={() => handleNavigateToDetail(item)}
             />
           )}
@@ -54,6 +59,17 @@ const Home = (props: IHomeProps) => {
           }
         />
       </S.Content>
+
+      <Modal
+        visible={confirmVisible}
+        title="Deseja excluir a conta"
+        message={pendingLabel}
+        confirmText="Com certeza"
+        cancelText="Não!"
+        loading={loading}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+      />
     </S.Container>
   );
 };

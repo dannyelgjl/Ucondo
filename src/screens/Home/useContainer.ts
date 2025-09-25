@@ -14,6 +14,39 @@ export const useContainer = (_: IHomeProps) => {
   const [allData, setAllData] = useState<ExpenseItem[]>([]);
   const [data, setData] = useState<ExpenseItem[]>([]);
   const [search, setSearch] = useState('');
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [pendingId, setPendingId] = useState<string>('');
+  const [pendingItem, setPendingItem] = useState<ExpenseItem | null>(null);
+
+  const onCancel = () => {
+    setConfirmVisible(false);
+  };
+
+  const openConfirm = useCallback(
+    (id: string) => {
+      setPendingId(id);
+      // procura primeiro na lista renderizada; se não achar, procura na completa
+      const found =
+        data.find(i => i.id === id) ?? allData.find(i => i.id === id) ?? null;
+      setPendingItem(found);
+      setConfirmVisible(true);
+    },
+    [allData, data],
+  );
+
+  const onConfirm = useCallback(async () => {
+    if (!pendingId) return;
+    setLoading(true);
+    try {
+      await deleteExpenseById(pendingId);
+      setAllData(prev => prev.filter(item => item.id !== pendingId));
+      setData(prev => prev.filter(item => item.id !== pendingId));
+    } finally {
+      setLoading(false);
+      setConfirmVisible(false);
+      setPendingId('');
+    }
+  }, [pendingId]);
 
   const applyFilter = useCallback((list: ExpenseItem[], query: string) => {
     const q = normalizeStr(query);
@@ -68,6 +101,10 @@ export const useContainer = (_: IHomeProps) => {
     navigation.navigate('DetailExpense', { expense });
   };
 
+  const pendingLabel = pendingItem
+    ? `${pendingItem.code} - ${pendingItem.name}?`
+    : '';
+
   return {
     handleNavigateToDetail,
     handleDelete,
@@ -77,5 +114,10 @@ export const useContainer = (_: IHomeProps) => {
     data,
     loading,
     load,
+    onCancel,
+    confirmVisible,
+    onConfirm,
+    openConfirm,
+    pendingLabel,
   };
 };
