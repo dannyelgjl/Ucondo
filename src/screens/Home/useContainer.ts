@@ -25,7 +25,7 @@ export const useContainer = (_: IHomeProps) => {
   const openConfirm = useCallback(
     (id: string) => {
       setPendingId(id);
-      // procura primeiro na lista renderizada; se não achar, procura na completa
+
       const found =
         data.find(i => i.id === id) ?? allData.find(i => i.id === id) ?? null;
       setPendingItem(found);
@@ -70,12 +70,6 @@ export const useContainer = (_: IHomeProps) => {
     }
   }, [applyFilter, search]);
 
-  useFocusEffect(
-    useCallback(() => {
-      load();
-    }, [load]),
-  );
-
   const onSearchChange = useCallback(
     (text: string) => {
       setSearch(text);
@@ -104,6 +98,13 @@ export const useContainer = (_: IHomeProps) => {
   const pendingLabel = pendingItem
     ? `${pendingItem.code} - ${pendingItem.name}?`
     : '';
+
+  useFocusEffect(
+    useCallback(() => {
+      load();
+      return () => {};
+    }, [load]),
+  );
 
   return {
     handleNavigateToDetail,

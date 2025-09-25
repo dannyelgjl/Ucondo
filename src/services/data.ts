@@ -20,6 +20,10 @@ export async function getExpenses(): Promise<ExpenseItem[]> {
 
 export async function addExpense(item: ExpenseItem): Promise<void> {
   const list = await getExpenses();
+  const duplicate = list.some(e => e.code === item.code);
+  if (duplicate) {
+    throw new Error('Este código já existe. Escolha outro.');
+  }
   list.push(item);
   await AsyncStorage.setItem(EXPENSES_STORAGE_KEY, JSON.stringify(list));
 }

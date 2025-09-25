@@ -25,3 +25,9 @@ export const Title = styled.Text`
   margin-bottom: 18px;
   margin-top: 18px;
 `;
+
+export const NotFound = styled.View`
+  padding: 24px;
+`;
+
+export const NotFoundLabel = styled.Text``;

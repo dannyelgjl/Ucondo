@@ -9,7 +9,6 @@ import { IHomeProps } from './types';
 
 const Home = (props: IHomeProps) => {
   const {
-    handleDelete,
     handleNavigateToDetail,
     onSearchChange,
     navigation,
@@ -48,11 +47,11 @@ const Home = (props: IHomeProps) => {
           )}
           contentContainerStyle={{ paddingBottom: 24 }}
           ListEmptyComponent={
-            <View style={{ padding: 24 }}>
-              <Text>
+            <S.NotFound>
+              <S.NotFoundLabel>
                 {search ? 'Nenhum resultado.' : 'Nenhum lançamento salvo.'}
-              </Text>
-            </View>
+              </S.NotFoundLabel>
+            </S.NotFound>
           }
           refreshControl={
             <RefreshControl refreshing={loading} onRefresh={load} />
