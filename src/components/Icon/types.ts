@@ -11,4 +11,6 @@ export enum ETypeIcon {
   ICON_TRASH = 'icon-trash',
   ICON_PLUS = 'icon-plus',
   ICON_DONE = 'icon-done',
+  ICON_ARROW_LEFT = 'icon-arrow-left',
+  ICON_SEARCH = 'icon-search',
 }
