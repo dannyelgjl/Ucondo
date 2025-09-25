@@ -25,6 +25,7 @@ const EnterExpenses = (props: IEnterExpensesProps) => {
     setSelectType,
     selectReleases,
     setSelectReleases,
+    parentError,
   } = useContainer(props);
 
   return (
@@ -44,6 +45,8 @@ const EnterExpenses = (props: IEnterExpensesProps) => {
           placeholder="Selecione a conta"
           mt={12}
           mb={12}
+          error={!!parentError}
+          errorMessage={parentError}
         />
 
         <Input

@@ -14,6 +14,8 @@ const Select = ({
   label,
   mb,
   mt,
+  error,
+  errorMessage,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectedOption = options.find(opt => opt.value === value);
@@ -43,6 +45,8 @@ const Select = ({
           />
         </S.IconWrapper>
       </S.SelectButton>
+
+      {!!error && !!errorMessage && <S.ErrorText>{errorMessage}</S.ErrorText>}
 
       <Modal
         visible={isOpen}

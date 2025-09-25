@@ -48,6 +48,34 @@ describe('Select', () => {
     expect(getByText('Accounts')).toBeTruthy();
   });
 
+  it('shows error message when error=true and errorMessage provided', () => {
+    const { getByText } = renderWithTheme(
+      <Select
+        options={OPTIONS}
+        placeholder="Choose"
+        value=""
+        onChange={jest.fn()}
+        error
+        errorMessage="Parent cannot accept releases"
+      />,
+    );
+    expect(getByText('Parent cannot accept releases')).toBeTruthy();
+  });
+
+  it('does not show error message when error=false', () => {
+    const { queryByText } = renderWithTheme(
+      <Select
+        options={OPTIONS}
+        placeholder="Choose"
+        value=""
+        onChange={jest.fn()}
+        error={false}
+        errorMessage="Parent cannot accept releases"
+      />,
+    );
+    expect(queryByText('Parent cannot accept releases')).toBeNull();
+  });
+
   it('opens the modal with options when pressing the select button', () => {
     const { getByText } = renderWithTheme(
       <Select

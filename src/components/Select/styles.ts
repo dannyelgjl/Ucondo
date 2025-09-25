@@ -36,6 +36,12 @@ export const SelectText = styled.Text<{ isPlaceholder: boolean }>`
   color: ${({ isPlaceholder }) => (isPlaceholder ? '#a0aec0' : '#1a202c')};
 `;
 
+export const ErrorText = styled.Text`
+  color: ${({ theme }) => theme.colors.feedbackErrorDark};
+  font-size: 12px;
+  margin-top: 4px;
+`;
+
 export const ModalContainer = styled.View`
   flex: 1;
   justify-content: center;

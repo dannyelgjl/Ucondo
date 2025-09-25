@@ -1,12 +1,17 @@
 import { useCallback, useMemo, useState } from 'react';
 import { IEnterExpensesProps, EnterExpensesNavigation } from './types';
-import { ACCOUNTS, addExpense, ExpenseItem } from '../../services/data';
+import {
+  ACCOUNTS,
+  addExpense,
+  ExpenseItem,
+  getExpenses,
+} from '../../services/data';
 import {
   SEG_MAX,
   suggestNextChildWithBubble,
   toSegments,
 } from '../../utils/chartOfAccounts';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { normalizeCode } from '../../utils/format';
 import { Alert } from 'react-native';
@@ -34,6 +39,20 @@ export const useContainer = (_: IEnterExpensesProps) => {
   const [codeTouched, setCodeTouched] = useState<boolean>(false);
   const [codeError, setCodeError] = useState('');
   const [parentError, setParentError] = useState('');
+
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        try {
+          const saved = await getExpenses();
+          setExpenses(saved);
+        } catch {
+          //
+        }
+      })();
+      return () => {};
+    }, []),
+  );
 
   const getSegmentOverflowError = (code: string) => {
     if (!code) return '';
@@ -84,7 +103,7 @@ export const useContainer = (_: IEnterExpensesProps) => {
           'Atenção',
           'Esta conta aceita lançamentos e não pode ter filhas.',
         );
-        setParentError('Esta conta aceita lançamentos e não pode ter filhas.'); // +++
+        setParentError('Esta conta aceita lançamentos e não pode ter filhas.');
         setSelectedParent('');
         setTypedCode('');
         return;
@@ -106,8 +125,8 @@ export const useContainer = (_: IEnterExpensesProps) => {
       const { parent, bubbled } = result;
       if (bubbled && parent !== parentCode) {
         Alert.alert(
-          'Pai ajustado',
-          `O pai foi ajustado para “${parent}” para sugerir um código válido.`,
+          'Pai',
+          `O pai precisa “${parent}” para sugerir um código válido.`,
         );
       }
 
@@ -184,8 +203,11 @@ export const useContainer = (_: IEnterExpensesProps) => {
     try {
       await addExpense(item);
       navigation.navigate('Home');
-    } catch (e) {
-      Alert.alert('Erro', 'Não foi possível salvar. Tente novamente.');
+    } catch (e: any) {
+      Alert.alert(
+        'Erro',
+        e?.message || 'Não foi possível salvar. Tente novamente.',
+      );
     }
   }, [validate, typedCode, typedName, selectType, selectReleases, navigation]);
 
@@ -240,5 +262,6 @@ export const useContainer = (_: IEnterExpensesProps) => {
     setSelectType,
     selectReleases,
     setSelectReleases,
+    parentError,
   };
 };

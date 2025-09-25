@@ -6,4 +6,6 @@ export interface SelectProps {
   label?: string;
   mb?: number;
   mt?: number;
+  error?: boolean;
+  errorMessage?: string;
 }
